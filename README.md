@@ -1,97 +1,78 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# UrbanSole — Shoe Cart
 
-# Getting Started
+A React Native (bare CLI, TypeScript) shoe cart app. Admins can add/edit a shoe catalog; shoppers can browse shoes, view details, manage a cart, and place orders. Everything is stored locally on-device (no backend/API) via Redux Toolkit + redux-persist + AsyncStorage.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+See also: [APPROACH.md](APPROACH.md) for design decisions, and [IMPROVEMENTS.md](IMPROVEMENTS.md) for what's next.
 
-## Step 1: Start Metro
+## Prerequisites
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+Follow the React Native [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide first (Xcode + CocoaPods for iOS, Android Studio + SDK for Android). This project uses React Native 0.86.
 
-To start the Metro dev server, run the following command from the root of your React Native project:
-
-```sh
-# Using npm
-npm start
-
-# OR using Yarn
-yarn start
-```
-
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
+## Install
 
 ```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
+npm install
 ```
 
 ### iOS
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
 ```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
+bundle install            # first time only, installs CocoaPods itself
+bundle exec pod install   # links native modules (image picker, fast-image, lottie, vector icons, etc.)
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+### Android
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+```sh
+npm run android
+```
 
-## Step 3: Modify your app
+## Run Metro (if not started automatically)
 
-Now that you have successfully run the app, let's make changes!
+```sh
+npm start
+```
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+## Project structure
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+```
+src/
+  screens/               Each screen has its own folder: Screen.tsx + style.ts
+    RoleSelect/          Admin vs Shopper landing screen
+    AdminShoeList/       Catalog grid + FAB to add a shoe
+    AdminShoeForm/       Add/edit form (brand, cost, sizes, photo via gallery or URL)
+    Shop/                Home tab — browse the catalog (grid)
+    ShoeDetails/         Product details: size + quantity, Add to Cart
+    Cart/                Review items (quantity stepper, remove), Place Order
+    OrderSuccess/        Lottie tick animation + Continue Shopping
+    Orders/              Table of past orders
+  components/            Shared pieces: ShoeCard, SizeSelector, QuantityStepper,
+                         FastImageView, CustomFlatList
+  navigation/
+    MainStack/           Root stack: RoleSelect -> Admin screens / Details / OrderSuccess / Tabs
+    BottomTabNavigation/ Bottom tabs for the shopper (Home, Cart, Orders) + helper.tsx for tab icons
+  redux/
+    reducers/            ShoesReducers, CartReducers, OrdersReducers
+    store/                store.ts (redux-persist + AsyncStorage wiring)
+  constants/             Per-screen static text + screen route names (screenNames.ts)
+  utils/
+    Constants.ts         Colors, size range, currency symbol
+    NavigationUtils.ts   navigate/goBack/etc. without needing the navigation prop
+  assets/lottie/         Order-success checkmark animation (JSON)
+```
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+Imports use aliases (`@screens/...`, `@components/...`, `@redux/...`, `@navigation/...`, `@utils/...`, `@constants/...`) configured via `babel-plugin-module-resolver` (see `babel.config.js`) and mirrored in `tsconfig.json`.
 
-## Congratulations! :tada:
+## How the app is organized
 
-You've successfully run and modified your React Native App. :partying_face:
+There's no login. On launch you choose **Admin** or **Shopper** on the first screen; a "Switch Role" button in the header lets you go back and pick the other one at any time. Both roles read/write the same persisted Redux store, so a shoe added as Admin shows up immediately for the Shopper.
 
-### Now what?
+- **Admin**: catalog grid with a FAB to add a shoe, tap any shoe to edit it. Brand, cost, and available sizes are required; a photo (gallery pick or pasted image URL) is optional. A "Delete Shoe" button on the edit screen removes it (with a confirmation prompt) and clears it out of any cart it's currently in.
+- **Shopper**:
+  - `Home` tab — browse the catalog grid, tap a shoe to open its details.
+  - **Details** screen — pick a size and quantity (persisted from the cart if you've already added that shoe), Add to Cart returns you to Home. A cart badge on this screen's bag icon shows the current cart count.
+  - `Cart` tab — increase/decrease quantity or remove each line, see the total, **Place Order** clears the cart and shows an animated success screen with a "Continue Shopping" button back to Home. The tab bar shows a live cart-count badge.
+  - `Orders` tab — table of every past order (date, items, total).
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+Prices are shown in ₹ throughout the app.
