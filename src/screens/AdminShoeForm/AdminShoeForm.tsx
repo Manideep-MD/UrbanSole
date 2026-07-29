@@ -79,8 +79,8 @@ const AdminShoeForm = ({ route }: any) => {
                     text: ADMIN_SHOE_FORM_TEXT.DELETE,
                     style: 'destructive',
                     onPress: () => {
-                        dispatch(DELETE_SHOE(existingShoe.id))
-                        dispatch(REMOVE_SHOE_FROM_CART(existingShoe.id))
+                        dispatch(DELETE_SHOE(existingShoe?.id))
+                        dispatch(REMOVE_SHOE_FROM_CART(existingShoe?.id))
                         goBack()
                     },
                 },

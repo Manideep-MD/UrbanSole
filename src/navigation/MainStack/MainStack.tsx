@@ -40,7 +40,7 @@ const AdminNavigator = () => (
             name={SCREENS.ADMIN_SHOE_FORM}
             component={AdminShoeForm}
             options={({ route }: any) => ({
-                title: route.params?.shoeId ? ADMIN_SHOE_FORM_TEXT.EDIT_TITLE : ADMIN_SHOE_FORM_TEXT.ADD_TITLE,
+                title: route?.params?.shoeId ? ADMIN_SHOE_FORM_TEXT.EDIT_TITLE : ADMIN_SHOE_FORM_TEXT.ADD_TITLE,
             })}
         />
     </Stack.Navigator>

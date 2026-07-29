@@ -27,13 +27,13 @@ const OrderCard = ({ item }: any) => {
 
             <View style={styles.divider} />
 
-            {item?.items.map((item: any, index: number) => (
+            {item?.items?.map((orderItem: any, index: number) => (
                 <View key={index} style={styles.itemRow}>
                     <Text style={styles.itemText} numberOfLines={1}>
-                        {item.brand} · Size {item.size} · Qty {item.quantity}
+                        {orderItem.brand} · Size {orderItem.size} · Qty {orderItem.quantity}
                     </Text>
                     <Text style={styles.itemPrice}>
-                        {CURRENCY_SYMBOL}{item.cost * item.quantity}
+                        {CURRENCY_SYMBOL}{orderItem.cost * orderItem.quantity}
                     </Text>
                 </View>
             ))}

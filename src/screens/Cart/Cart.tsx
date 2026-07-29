@@ -75,12 +75,12 @@ const Cart = () => {
 
         dispatch(ADD_ORDER({
             id: Date.now().toString(),
-            userId: currentUser.id,
+            userId: currentUser?.id,
             date: new Date().toISOString(),
             items: orderItems,
             total,
         }))
-        dispatch(CLEAR_CART(currentUser.id))
+        dispatch(CLEAR_CART(currentUser?.id))
         navigate(SCREENS.ORDER_SUCCESS)
     }
 

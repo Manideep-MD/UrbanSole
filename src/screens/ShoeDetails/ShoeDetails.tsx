@@ -43,7 +43,7 @@ const ShoeDetails = ({ route }: any) => {
         if (size === null) {
             return
         }
-        dispatch(ADD_TO_CART({ userId: currentUser.id, shoeId: shoe.id, size, quantity }))
+        dispatch(ADD_TO_CART({ userId: currentUser?.id, shoeId: shoe.id, size, quantity }))
         navigate(SCREENS.TABS, { screen: SCREENS.SHOP })
     }
 
