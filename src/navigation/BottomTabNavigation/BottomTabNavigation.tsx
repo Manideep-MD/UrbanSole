@@ -27,9 +27,9 @@ const BottomTabNavigation = () => {
                 tabBarBadgeStyle: { backgroundColor: colors.danger },
                 tabBarShowLabel: false,
                 tabBarStyle: {
-                    height: 20 ,
+                    height: 60 + insets.bottom,
                     paddingTop: 6,
-                    
+                    paddingBottom: insets.bottom > 0 ? insets.bottom : 8,
                 },
                 headerRight: () => <LogoutButton />,
                 tabBarIcon: ({ focused, color, size }: any) => renderTabIcon(route, focused, color, size),
