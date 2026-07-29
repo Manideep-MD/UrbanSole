@@ -1,0 +1,18 @@
+export const SIGN_UP_TEXT = {
+    TITLE: 'Create Account',
+    SUBTITLE: 'Sign up to get started',
+    NAME_LABEL: 'Name',
+    NAME_PLACEHOLDER: 'Your name',
+    EMAIL_LABEL: 'Email',
+    EMAIL_PLACEHOLDER: 'you@example.com',
+    PASSWORD_LABEL: 'Password',
+    PASSWORD_PLACEHOLDER: 'Create a password',
+    ROLE_LABEL: 'I am a',
+    ADMIN_LABEL: 'Admin',
+    SHOPPER_LABEL: 'Shopper',
+    SIGN_UP_BUTTON: 'Sign Up',
+    HAVE_ACCOUNT_TEXT: 'Already have an account?',
+    SIGN_IN_LINK: 'Sign In',
+    ERROR_EMAIL_TAKEN: 'An account with this email already exists.',
+    ERROR_REQUIRED_FIELDS: 'Please fill in all fields.',
+}

@@ -1,6 +1,6 @@
 # UrbanSole — Shoe Cart
 
-A React Native (bare CLI, TypeScript) shoe cart app. Admins can add/edit a shoe catalog; shoppers can browse shoes, view details, manage a cart, and place orders. Everything is stored locally on-device (no backend/API) via Redux Toolkit + redux-persist + AsyncStorage.
+A React Native (bare CLI, TypeScript) shoe cart app. Sign up as an Admin or a Shopper: admins add/edit a shoe catalog, shoppers browse shoes, view details, manage a cart, and place orders. Everything is stored locally on-device (no backend/API) via Redux Toolkit + redux-persist + AsyncStorage — including accounts, so there's no server-side auth.
 
 See also: [APPROACH.md](APPROACH.md) for design decisions, and [IMPROVEMENTS.md](IMPROVEMENTS.md) for what's next.
 
@@ -39,7 +39,8 @@ npm start
 ```
 src/
   screens/               Each screen has its own folder: Screen.tsx + style.ts
-    RoleSelect/          Admin vs Shopper landing screen
+    SignIn/              Email/password sign in
+    SignUp/              Sign up with a name/email/password + Admin-or-Shopper role picker
     AdminShoeList/       Catalog grid + FAB to add a shoe
     AdminShoeForm/       Add/edit form (brand, cost, sizes, photo via gallery or URL)
     Shop/                Home tab — browse the catalog (grid)
@@ -47,18 +48,21 @@ src/
     Cart/                Review items (quantity stepper, remove), Place Order
     OrderSuccess/        Lottie tick animation + Continue Shopping
     Orders/              Table of past orders
-  components/            Shared pieces: ShoeCard, SizeSelector, QuantityStepper,
-                         FastImageView, CustomFlatList
+  components/            Shared pieces: ShoeCard, OrderCard, SizeSelector, QuantityStepper,
+                         FastImageView, LogoutButton, CartButton
   navigation/
-    MainStack/           Root stack: RoleSelect -> Admin screens / Details / OrderSuccess / Tabs
+    MainStack/           Picks Auth stack (signed out) vs Admin stack vs Shopper stack, based
+                         on the logged-in user's role
     BottomTabNavigation/ Bottom tabs for the shopper (Home, Cart, Orders) + helper.tsx for tab icons
   redux/
-    reducers/            ShoesReducers, CartReducers, OrdersReducers
+    reducers/            AuthReducers, ShoesReducers, CartReducers, OrdersReducers
     store/                store.ts (redux-persist + AsyncStorage wiring)
   constants/             Per-screen static text + screen route names (screenNames.ts)
   utils/
-    Constants.ts         Colors, size range, currency symbol
+    Constants.ts         Colors, size range, currency symbol, ROLES
     NavigationUtils.ts   navigate/goBack/etc. without needing the navigation prop
+    theme/ThemeContext.tsx  ThemeProvider — supplies the color palette app-wide via context
+    useThemeColors.ts    Hook wrapping ThemeContext; every screen/component reads colors through this
   assets/lottie/         Order-success checkmark animation (JSON)
 ```
 
@@ -66,13 +70,13 @@ Imports use aliases (`@screens/...`, `@components/...`, `@redux/...`, `@navigati
 
 ## How the app is organized
 
-There's no login. On launch you choose **Admin** or **Shopper** on the first screen; a "Switch Role" button in the header lets you go back and pick the other one at any time. Both roles read/write the same persisted Redux store, so a shoe added as Admin shows up immediately for the Shopper.
+On launch you land on Sign In; new users tap through to Sign Up, where you pick **Admin** or **Shopper** alongside your name/email/password. Accounts and the logged-in session are stored locally (Redux + AsyncStorage, no backend), and you stay signed in across app restarts. A "Logout" button in the header returns you to Sign In. Both roles read/write the same persisted Redux store, so a shoe added as Admin shows up immediately for any Shopper — but each Shopper's cart and order history is scoped to their own account, so switching between accounts on the same device never shows one user's cart or orders to another.
 
-- **Admin**: catalog grid with a FAB to add a shoe, tap any shoe to edit it. Brand, cost, and available sizes are required; a photo (gallery pick or pasted image URL) is optional. A "Delete Shoe" button on the edit screen removes it (with a confirmation prompt) and clears it out of any cart it's currently in.
+- **Admin**: catalog grid with a FAB to add a shoe, tap any shoe to edit it. Brand, cost, and available sizes are required (marked with a red asterisk); a photo (gallery pick or pasted image URL) is optional. Cost is entered as a plain whole number (no decimals). A "Delete Shoe" button on the edit screen removes it (with a confirmation prompt) and clears it out of any cart it's currently in.
 - **Shopper**:
   - `Home` tab — browse the catalog grid, tap a shoe to open its details.
   - **Details** screen — pick a size and quantity (persisted from the cart if you've already added that shoe), Add to Cart returns you to Home. A cart badge on this screen's bag icon shows the current cart count.
   - `Cart` tab — increase/decrease quantity or remove each line, see the total, **Place Order** clears the cart and shows an animated success screen with a "Continue Shopping" button back to Home. The tab bar shows a live cart-count badge.
-  - `Orders` tab — table of every past order (date, items, total).
+  - `Orders` tab — list of every past order placed by the signed-in account (date, items, total), rendered via a reusable `OrderCard` component.
 
-Prices are shown in ₹ throughout the app.
+Prices are shown in ₹ throughout the app as whole numbers (no decimal places). Colors are supplied app-wide through a `ThemeContext`/`useThemeColors` hook rather than importing a static colors object directly, so the whole app reads from one theming source.

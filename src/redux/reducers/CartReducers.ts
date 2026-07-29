@@ -15,14 +15,16 @@ export const cartReducers = createSlice({
     initialState,
     reducers: {
         ADD_TO_CART: (state, action: PayloadAction<any>) => {
-            const { shoeId, size, quantity } = action.payload
-            const existingItem = state.cart.find((item: any) => item.shoeId === shoeId && item.size === size)
+            const { userId, shoeId, size, quantity } = action.payload
+            const existingItem = state.cart.find(
+                (item: any) => item.userId === userId && item.shoeId === shoeId && item.size === size,
+            )
 
             if (existingItem) {
                 existingItem.quantity = quantity
                 console.log('quantity updated in cart')
             } else {
-                state.cart.push({ id: Date.now().toString(), shoeId, size, quantity })
+                state.cart.push({ id: Date.now().toString(), userId, shoeId, size, quantity })
                 console.log('added to cart')
             }
         },
@@ -46,8 +48,8 @@ export const cartReducers = createSlice({
                 state.cart = state.cart.filter((cartItem: any) => cartItem.id !== action.payload)
             }
         },
-        CLEAR_CART: (state) => {
-            state.cart = []
+        CLEAR_CART: (state, action: PayloadAction<any>) => {
+            state.cart = state.cart.filter((item: any) => item.userId !== action.payload)
         },
         REMOVE_SHOE_FROM_CART: (state, action: PayloadAction<any>) => {
             state.cart = state.cart.filter((item: any) => item.shoeId !== action.payload)

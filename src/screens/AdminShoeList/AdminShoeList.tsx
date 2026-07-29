@@ -1,17 +1,17 @@
 import React, { useCallback } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import createStyle from './style';
-import { COLORS } from '@utils/Constants';
+import useThemeColors from '@utils/useThemeColors';
 import { SCREENS } from '@constants/screenNames';
 import { ADMIN_SHOE_LIST_TEXT } from '@constants/AdminShoeList';
 import ShoeCard from '@components/ShoeCard/ShoeCard';
-import CustomFlatList from '@components/CustomFlatList/CustomFlatList';
 import { navigate } from '@utils/NavigationUtils';
 
 const AdminShoeList = () => {
-    const styles = createStyle(COLORS)
+    const colors = useThemeColors()
+    const styles = createStyle(colors)
     const shoes = useSelector((state: any) => state.shoes.shoes)
 
     const renderItem = useCallback(({ item, index }: any) => (
@@ -25,18 +25,19 @@ const AdminShoeList = () => {
 
     return (
         <View style={styles.container}>
-            <CustomFlatList
+            <FlatList
                 data={shoes}
                 renderItem={renderItem}
+                keyExtractor={item => item.id}
                 numColumns={2}
                 columnWrapperStyle={styles.columnWrapper}
                 contentContainerStyle={styles.list}
-                emptyText={ADMIN_SHOE_LIST_TEXT.EMPTY_TEXT}
-                emptyTextStyle={styles.emptyText}
+                showsVerticalScrollIndicator={false}
+                ListEmptyComponent={<Text style={styles.emptyText}>{ADMIN_SHOE_LIST_TEXT.EMPTY_TEXT}</Text>}
             />
 
             <TouchableOpacity style={styles.fab} onPress={() => navigate(SCREENS.ADMIN_SHOE_FORM, {})}>
-                <Icon name="add" size={26} color={COLORS.background} />
+                <Icon name="add" size={26} color={colors.background} />
             </TouchableOpacity>
         </View>
     );

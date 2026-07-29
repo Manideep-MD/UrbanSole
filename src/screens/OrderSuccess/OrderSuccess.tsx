@@ -1,17 +1,19 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import LottieView from 'lottie-react-native';
 import createStyle from './style';
-import { COLORS } from '@utils/Constants';
+import useThemeColors from '@utils/useThemeColors';
 import { SCREENS } from '@constants/screenNames';
 import { ORDER_SUCCESS_TEXT } from '@constants/OrderSuccess';
 import { navigate } from '@utils/NavigationUtils';
 
 const OrderSuccess = () => {
-    const styles = createStyle(COLORS)
+    const colors = useThemeColors()
+    const styles = createStyle(colors)
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
             <LottieView
                 source={require('../../assets/lottie/orderSuccess.json')}
                 autoPlay
@@ -28,7 +30,7 @@ const OrderSuccess = () => {
             >
                 <Text style={styles.continueButtonText}>{ORDER_SUCCESS_TEXT.CONTINUE_SHOPPING}</Text>
             </TouchableOpacity>
-        </View>
+        </SafeAreaView>
     );
 };
 

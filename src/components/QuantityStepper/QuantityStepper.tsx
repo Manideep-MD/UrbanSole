@@ -2,10 +2,11 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import createStyle from './style';
-import { COLORS } from '@utils/Constants';
+import useThemeColors from '@utils/useThemeColors';
 
 const QuantityStepper = ({ quantity, onIncrease, onDecrease, min = 1, blockAtMin = true }: any) => {
-    const styles = createStyle(COLORS)
+    const colors = useThemeColors()
+    const styles = createStyle(colors)
     const decreaseDisabled = blockAtMin && quantity <= min
 
     return (
@@ -15,13 +16,13 @@ const QuantityStepper = ({ quantity, onIncrease, onDecrease, min = 1, blockAtMin
                 onPress={onDecrease}
                 disabled={decreaseDisabled}
             >
-                <Icon name="remove" size={16} color={COLORS.text} />
+                <Icon name="remove" size={16} color={colors.text} />
             </TouchableOpacity>
 
             <Text style={styles.value}>{quantity}</Text>
 
             <TouchableOpacity style={styles.button} onPress={onIncrease}>
-                <Icon name="add" size={16} color={COLORS.text} />
+                <Icon name="add" size={16} color={colors.text} />
             </TouchableOpacity>
         </View>
     );

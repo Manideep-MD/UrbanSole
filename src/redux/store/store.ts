@@ -4,6 +4,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import shoesReducers from '@redux/reducers/ShoesReducers';
 import cartReducers from '@redux/reducers/CartReducers';
 import ordersReducers from '@redux/reducers/OrdersReducers';
+import authReducers from '@redux/reducers/AuthReducers';
+
+const authPersistConfig = {
+  key: 'auth',
+  storage: AsyncStorage,
+  whitelist: ['users', 'currentUser'],
+};
 
 const shoesPersistConfig = {
   key: 'shoes-v2',
@@ -24,6 +31,7 @@ const ordersPersistConfig = {
 };
 
 const rootReducer = combineReducers({
+  auth: persistReducer(authPersistConfig, authReducers),
   shoes: persistReducer(shoesPersistConfig, shoesReducers),
   cart: persistReducer(cartPersistConfig, cartReducers),
   orders: persistReducer(ordersPersistConfig, ordersReducers),

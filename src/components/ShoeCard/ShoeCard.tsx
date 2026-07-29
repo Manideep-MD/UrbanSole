@@ -1,11 +1,13 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import createStyle from './style';
-import { COLORS, CARD_BACKGROUNDS, CURRENCY_SYMBOL } from '@utils/Constants';
+import { CARD_BACKGROUNDS, CURRENCY_SYMBOL } from '@utils/Constants';
+import useThemeColors from '@utils/useThemeColors';
 import FastImageView from '@components/FastImageView/FastImageView';
 
 const ShoeCard = ({ shoe, onPress, actionLabel, index = 0 }: any) => {
-    const styles = createStyle(COLORS)
+    const colors = useThemeColors()
+    const styles = createStyle(colors)
     const bgColor = CARD_BACKGROUNDS[index % CARD_BACKGROUNDS.length]
 
     return (
@@ -21,7 +23,7 @@ const ShoeCard = ({ shoe, onPress, actionLabel, index = 0 }: any) => {
             <Text style={styles.brand} numberOfLines={1}>{shoe.brand}</Text>
 
             <View style={styles.footerRow}>
-                <Text style={styles.cost}>{CURRENCY_SYMBOL}{shoe.cost.toFixed(2)}</Text>
+                <Text style={styles.cost}>{CURRENCY_SYMBOL}{shoe.cost}</Text>
                 <View style={styles.actionPill}>
                     <Text style={styles.actionText}>{actionLabel}</Text>
                 </View>

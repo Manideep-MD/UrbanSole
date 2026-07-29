@@ -29,6 +29,9 @@ const createStyle = (colors: any) => {
             color: colors.text,
             marginBottom: 8,
         },
+        required: {
+            color: colors.danger,
+        },
         orLabel: {
             fontSize: 12,
             color: colors.muted,

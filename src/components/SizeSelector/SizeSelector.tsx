@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import createStyle from './style';
-import { COLORS } from '@utils/Constants';
+import useThemeColors from '@utils/useThemeColors';
 
 const SizeSelector = ({ sizes, selected, onSelect }: any) => {
-    const styles = createStyle(COLORS)
+    const colors = useThemeColors()
+    const styles = createStyle(colors)
 
     return (
         <View style={styles.row}>

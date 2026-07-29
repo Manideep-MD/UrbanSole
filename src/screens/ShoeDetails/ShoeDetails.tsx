@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import createStyle from './style';
-import { COLORS, CARD_BACKGROUNDS, CURRENCY_SYMBOL } from '@utils/Constants';
+import { CARD_BACKGROUNDS, CURRENCY_SYMBOL } from '@utils/Constants';
+import useThemeColors from '@utils/useThemeColors';
 import { SHOE_DETAILS_TEXT } from '@constants/ShoeDetails';
 import SizeSelector from '@components/SizeSelector/SizeSelector';
 import FastImageView from '@components/FastImageView/FastImageView';
@@ -12,11 +13,15 @@ import { SCREENS } from '@constants/screenNames';
 import { navigate } from '@utils/NavigationUtils';
 
 const ShoeDetails = ({ route }: any) => {
-    const styles = createStyle(COLORS)
+    const colors = useThemeColors()
+    const styles = createStyle(colors)
     const dispatch = useDispatch()
     const shoeId = route?.params?.shoeId
     const shoe = useSelector((state: any) => state.shoes.shoes.find((item: any) => item.id === shoeId))
-    const cartItems = useSelector((state: any) => state.cart.cart)
+    const currentUser = useSelector((state: any) => state.auth.currentUser)
+    const cartItems = useSelector((state: any) =>
+        state.cart.cart.filter((item: any) => item.userId === currentUser?.id),
+    )
 
     const [size, setSize] = useState<number | null>(() => {
         const existing = cartItems.find((item: any) => item.shoeId === shoeId)
@@ -38,7 +43,7 @@ const ShoeDetails = ({ route }: any) => {
         if (size === null) {
             return
         }
-        dispatch(ADD_TO_CART({ shoeId: shoe.id, size, quantity }))
+        dispatch(ADD_TO_CART({ userId: currentUser.id, shoeId: shoe.id, size, quantity }))
         navigate(SCREENS.TABS, { screen: SCREENS.SHOP })
     }
 
@@ -53,7 +58,7 @@ const ShoeDetails = ({ route }: any) => {
             </View>
 
             <Text style={styles.brand}>{shoe.brand}</Text>
-            <Text style={styles.cost}>{CURRENCY_SYMBOL}{shoe.cost.toFixed(2)}</Text>
+            <Text style={styles.cost}>{CURRENCY_SYMBOL}{shoe.cost}</Text>
 
             <Text style={styles.label}>{SHOE_DETAILS_TEXT.STOCK_LABEL}</Text>
             <SizeSelector sizes={shoe.sizes} selected={size !== null ? [size] : []} onSelect={setSize} />

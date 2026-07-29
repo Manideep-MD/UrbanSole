@@ -5,7 +5,7 @@ const createStyle = (colors: any) => {
         headerButton: {
             marginRight: 12,
         },
-        switchRoleText: {
+        logoutText: {
             color: colors.primary,
             fontWeight: '600',
         },

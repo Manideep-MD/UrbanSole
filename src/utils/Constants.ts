@@ -1,5 +1,10 @@
 export const AVAILABLE_SIZES = [5, 6, 7, 8, 9, 10, 11, 12, 13];
 
+export const ROLES = {
+    ADMIN: 'admin',
+    SHOPPER: 'shopper',
+};
+
 export const COLORS = {
     primary: '#1a1a2e',
     background: '#ffffff',

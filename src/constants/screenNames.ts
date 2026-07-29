@@ -1,5 +1,6 @@
 export const SCREENS = {
-    ROLE_SELECT: 'RoleSelect',
+    SIGN_IN: 'SignIn',
+    SIGN_UP: 'SignUp',
     ADMIN_SHOE_LIST: 'AdminShoeList',
     ADMIN_SHOE_FORM: 'AdminShoeForm',
     SHOE_DETAILS: 'ShoeDetails',

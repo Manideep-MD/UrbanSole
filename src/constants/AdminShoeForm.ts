@@ -4,7 +4,7 @@ export const ADMIN_SHOE_FORM_TEXT = {
     BRAND_LABEL: 'Brand',
     BRAND_PLACEHOLDER: 'Brand name',
     COST_LABEL: 'Cost',
-    COST_PLACEHOLDER: '0.00',
+    COST_PLACEHOLDER: 'Enter cost',
     SIZES_LABEL: 'Available Sizes',
     IMAGE_LABEL: 'Image (optional)',
     IMAGE_URL_PLACEHOLDER: 'Paste an image URL',

@@ -8,6 +8,7 @@ export interface Shoe {
 
 export interface CartItem {
     id: string;
+    userId: string;
     shoeId: string;
     size: number;
     quantity: number;
@@ -23,7 +24,16 @@ export interface OrderItem {
 
 export interface Order {
     id: string;
+    userId: string;
     date: string;
     items: OrderItem[];
     total: number;
+}
+
+export interface User {
+    id: string;
+    name: string;
+    email: string;
+    password: string;
+    role: string;
 }
