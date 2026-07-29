@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import createStyle from './style';
 import useThemeColors from '@utils/useThemeColors';
+import useExitConfirmation from '@utils/useExitConfirmation';
 import { SIGN_IN_TEXT } from '@constants/SignIn';
 import { SCREENS } from '@constants/screenNames';
 import { SIGN_IN } from '@redux/reducers/AuthReducers';
@@ -13,6 +14,7 @@ import { navigate } from '@utils/NavigationUtils';
 const SignIn = () => {
     const colors = useThemeColors()
     const styles = createStyle(colors)
+    useExitConfirmation()
     const dispatch = useDispatch()
     const users = useSelector((state: any) => state.auth.users)
 

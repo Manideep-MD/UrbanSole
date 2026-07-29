@@ -30,5 +30,16 @@ target 'UrbanSole' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+
+    # CocoaPods generates a HERMES_CLI_PATH that double-nests the project
+    # folder name (".../UrbanSole/UrbanSole/node_modules/...") instead of
+    # pointing at the real node_modules next to this Podfile's parent.
+    installer.aggregate_targets.each do |aggregate_target|
+      aggregate_target.xcconfigs.each do |config_name, config_file|
+        config_file.attributes['HERMES_CLI_PATH'] =
+          "#{Pod::Config.instance.installation_root}/../node_modules/hermes-compiler/hermesc/osx-bin/hermesc"
+        config_file.save_as(aggregate_target.xcconfig_path(config_name))
+      end
+    end
   end
 end

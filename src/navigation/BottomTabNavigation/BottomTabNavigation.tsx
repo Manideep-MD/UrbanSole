@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useThemeColors from '@utils/useThemeColors';
 import { SCREENS } from '@constants/screenNames';
 import { SHOP_TEXT } from '@constants/Shop';
@@ -14,6 +15,7 @@ const Tab = createBottomTabNavigator();
 
 const BottomTabNavigation = () => {
     const colors = useThemeColors()
+    const insets = useSafeAreaInsets()
     const cartCount = useSelector((state: any) =>
         state.cart.cart.filter((item: any) => item.userId === state.auth.currentUser?.id).length,
     )
@@ -23,6 +25,12 @@ const BottomTabNavigation = () => {
             screenOptions={({ route }: any) => ({
                 tabBarActiveTintColor: colors.primary,
                 tabBarBadgeStyle: { backgroundColor: colors.danger },
+                tabBarShowLabel: false,
+                tabBarStyle: {
+                    height: 20 ,
+                    paddingTop: 6,
+                    
+                },
                 headerRight: () => <LogoutButton />,
                 tabBarIcon: ({ focused, color, size }: any) => renderTabIcon(route, focused, color, size),
             })}

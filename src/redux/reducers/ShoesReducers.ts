@@ -17,7 +17,6 @@ export const shoesReducers = createSlice({
     reducers: {
         ADD_SHOE: (state, action: PayloadAction<any>) => {
             state.shoes.push(action.payload)
-            console.log('shoe added', action.payload)
         },
         UPDATE_SHOE: (state, action: PayloadAction<any>) => {
             const index = state.shoes.findIndex((item: any) => item.id === action.payload.id)

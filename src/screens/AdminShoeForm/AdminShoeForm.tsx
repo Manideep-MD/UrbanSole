@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { launchImageLibrary } from 'react-native-image-picker';
 import createStyle from './style';
 import { AVAILABLE_SIZES } from '@utils/Constants';
 import useThemeColors from '@utils/useThemeColors';
+import { confirmAction } from '@utils/ConfirmAlert';
 import { ADMIN_SHOE_FORM_TEXT } from '@constants/AdminShoeForm';
 import SizeSelector from '@components/SizeSelector/SizeSelector';
 import FastImageView from '@components/FastImageView/FastImageView';
@@ -70,21 +71,16 @@ const AdminShoeForm = ({ route }: any) => {
     }
 
     const handleDelete = () => {
-        Alert.alert(
+        confirmAction(
             ADMIN_SHOE_FORM_TEXT.DELETE_CONFIRM_TITLE,
             ADMIN_SHOE_FORM_TEXT.DELETE_CONFIRM_MESSAGE,
-            [
-                { text: ADMIN_SHOE_FORM_TEXT.CANCEL, style: 'cancel' },
-                {
-                    text: ADMIN_SHOE_FORM_TEXT.DELETE,
-                    style: 'destructive',
-                    onPress: () => {
-                        dispatch(DELETE_SHOE(existingShoe?.id))
-                        dispatch(REMOVE_SHOE_FROM_CART(existingShoe?.id))
-                        goBack()
-                    },
-                },
-            ],
+            ADMIN_SHOE_FORM_TEXT.DELETE,
+            () => {
+                dispatch(DELETE_SHOE(existingShoe?.id))
+                dispatch(REMOVE_SHOE_FROM_CART(existingShoe?.id))
+                goBack()
+            },
+            { cancelText: ADMIN_SHOE_FORM_TEXT.CANCEL, destructive: true },
         )
     }
 

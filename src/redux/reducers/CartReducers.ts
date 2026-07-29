@@ -22,10 +22,8 @@ export const cartReducers = createSlice({
 
             if (existingItem) {
                 existingItem.quantity = quantity
-                console.log('quantity updated in cart')
             } else {
                 state.cart.push({ id: Date.now().toString(), userId, shoeId, size, quantity })
-                console.log('added to cart')
             }
         },
         REMOVE_FROM_CART: (state, action: PayloadAction<any>) => {

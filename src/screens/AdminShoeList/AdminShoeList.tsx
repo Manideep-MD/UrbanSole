@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import createStyle from './style';
 import useThemeColors from '@utils/useThemeColors';
+import useExitConfirmation from '@utils/useExitConfirmation';
 import { SCREENS } from '@constants/screenNames';
 import { ADMIN_SHOE_LIST_TEXT } from '@constants/AdminShoeList';
 import ShoeCard from '@components/ShoeCard/ShoeCard';
@@ -12,6 +13,7 @@ import { navigate } from '@utils/NavigationUtils';
 const AdminShoeList = () => {
     const colors = useThemeColors()
     const styles = createStyle(colors)
+    useExitConfirmation()
     const shoes = useSelector((state: any) => state.shoes.shoes)
 
     const renderItem = useCallback(({ item, index }: any) => (

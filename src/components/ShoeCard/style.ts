@@ -11,7 +11,7 @@ const createStyle = (colors: any) => {
         },
         imageWrapper: {
             width: '100%',
-            height: 110,
+            height: 145,
             borderRadius: 14,
             alignItems: 'center',
             justifyContent: 'center',

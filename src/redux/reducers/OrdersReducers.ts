@@ -16,7 +16,6 @@ export const ordersReducers = createSlice({
     reducers: {
         ADD_ORDER: (state, action: PayloadAction<any>) => {
             state.orders.push(action.payload)
-            console.log('order placed', action.payload)
         },
     },
 })

@@ -20,11 +20,9 @@ export const authReducers = createSlice({
             const newUser = { id: Date.now().toString(), ...action.payload }
             state.users.push(newUser)
             state.currentUser = newUser
-            console.log('signed up', newUser.email,newUser.id)
         },
         SIGN_IN: (state, action: PayloadAction<any>) => {
             state.currentUser = action.payload
-            console.log('signed in', action.payload.email)
         },
         LOGOUT: (state) => {
             state.currentUser = null

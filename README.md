@@ -6,7 +6,7 @@ See also: [APPROACH.md](APPROACH.md) for design decisions, and [IMPROVEMENTS.md]
 
 ## Prerequisites
 
-Follow the React Native [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide first (Xcode + CocoaPods for iOS, Android Studio + SDK for Android). This project uses React Native 0.86.
+Follow the React Native [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide first (Xcode + CocoaPods for iOS, Android Studio + SDK for Android). This project uses React Native 0.86, which requires Node 20.19+/22.13+ (see `.nvmrc` — run `nvm use` if you have nvm installed).
 
 ## Install
 
